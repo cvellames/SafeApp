@@ -1,5 +1,5 @@
 module.exports = {
-    database: "erp",
+    database: "safeapp",
     username: "root",
     password: "root",
     params: {

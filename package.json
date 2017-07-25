@@ -1,10 +1,10 @@
 {
-  "name": "ERP",
-  "description": "ERP",
+  "name": "SafeApp",
+  "description": "SafeApp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "test": "node ./node_modules/mocha/bin/mocha"
   },
   "dependencies": {

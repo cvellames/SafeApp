@@ -32,6 +32,9 @@ into(app);
 // Sync database and start up node server
 app.db.sequelize.sync({force:false}).done(function(){
     app.listen(3000, function(){
-        console.log("ERP running in port 3000")
+        console.log("App running in port 3000");
+        
+        const initialLoad = require("./config/initial_load")(app);
+        initialLoad.emergencyTypes();
     });
 });
