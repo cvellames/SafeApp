@@ -21,7 +21,7 @@ module.exports = function(app){
             
                 for(var i = 0; i < emergencyTypes.length; i++){
                     EmergencyTypes.create({
-                        id: i,
+                        id: i + 1,
                         name: emergencyTypes[i]
                     })
                 }
