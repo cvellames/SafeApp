@@ -17,7 +17,7 @@ module.exports = function(app){
                     return;
                 }
                 
-                const emergencyTypes = ["Saúde", "Policia", "Transporte", "Perdidoo"];
+                const emergencyTypes = ["Saúde", "Policia", "Transporte", "Perdido"];
             
                 for(var i = 0; i < emergencyTypes.length; i++){
                     EmergencyTypes.create({

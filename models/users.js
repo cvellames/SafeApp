@@ -18,6 +18,11 @@ module.exports = function(sequelize, Sequelize){
             field: "activation_code",
             type: Sequelize.STRING,
             allowNull: true
+        },
+        accessToken: {
+            field: "access_token",
+            type: Sequelize.STRING(100),
+            allowNull: true
         }
     }, {
         tableName: "users",
@@ -30,13 +35,15 @@ module.exports = function(sequelize, Sequelize){
     });
 
     /**
-     * Insert the activation code in user creation
+     * Insert the activation code and access token in user creation
      */
     Users.beforeCreate(function(user){
+        
         const min = 100000;
         const max = 999999;
         const activationCode = Math.floor(Math.random() * (max - min) + min);
         user.activationCode = activationCode;
+        
     });
 
     return Users;

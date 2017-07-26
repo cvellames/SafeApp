@@ -10,6 +10,7 @@ var expressLoad = require("express-load");
 
 // My Modules
 const returnUtils = require("./utils/return")();
+const securityConfig = require("./config/security")();
 
 // Init express
 var app = express();
