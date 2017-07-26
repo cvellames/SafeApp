@@ -10,7 +10,7 @@ module.exports = function(){
         invalidJSON : function(){
             return {
                 status : 'Error',
-                msg : "Invalid JSON",
+                message : "Invalid JSON",
                 content : null
             }
         },
@@ -22,7 +22,7 @@ module.exports = function(){
 
             return {
                 status : "Success",
-                msg : msg,
+                message : msg,
                 content : content
             }
         },
@@ -34,7 +34,7 @@ module.exports = function(){
 
             return {
                 status : "Error",
-                msg : msg,
+                message : msg,
                 content : content
             }
         },
@@ -42,7 +42,7 @@ module.exports = function(){
         internalServerError: function(){
             return {
                 status : "Error",
-                msg: "Internal Server Error. Contact the support",
+                message: "Internal Server Error. Contact the support",
                 content: null
             }
         },
@@ -50,7 +50,7 @@ module.exports = function(){
         forbiddenRequest: function(){
             return {
                 status : "Forbidden",
-                msg: "You are not authorized to access this route",
+                message: "You are not authorized to access this route",
                 content: null
             }
         }

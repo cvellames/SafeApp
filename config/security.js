@@ -6,11 +6,10 @@ module.exports = function(app){
         leftPadding: "@%#$Hdsfhfd#¨#$_346234347+#$&hf",
         rightPadding: "¨%&#$hfdsh34¨$#¨246!¨#@$¨#$ge",
         
-        checkAuthorization: function(userId, hash, res, callback){
+        checkAuthorization: function(hash, res, callback){
             const User = app.db.models.Users;
             User.count({where : {
-                accessToken: hash,
-                id: userId
+                accessToken: hash
             }}).then(function(count){
                 if(count === 0){
                     res.status(returnUtils.FORBIDDEN_REQUEST).json(returnUtils.forbiddenRequest());

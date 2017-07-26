@@ -12,8 +12,8 @@ module.exports = function(app){
     const securityConfig = require("./../config/security")(app);
 
     return {
-        getUser: function(req,res,next){
-            securityConfig.checkAuthorization(req.params.userId, req.headers.authorization, res, function(){
+        get: function(req,res,next){
+            securityConfig.checkAuthorization(req.headers.authorization, res, function(){
                 Users.findOne({
                 where: {
                     id : req.params.userId
@@ -30,14 +30,18 @@ module.exports = function(app){
         */
         insert: function(req,res){
             Users.create({
-                name: req.body.name,
                 phone: req.body.phone
             }).then(function(user){
                 const msg = "User inserted with success";
+                user.activationCode = null;
                 res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(user, msg));
             }).catch(function(error){
+                // Check if the error is unique violation of phone, in this case, resend the activatio code
+                if(error.errors[0].path == "phone" && error.errors[0].type == "unique violation"){
+                    const msg = "Activation code re-sended"
+                    res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, ));
+                }
                 res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(error.errors));
-                console.log(error.errors);
             });
         },
         
@@ -54,7 +58,8 @@ module.exports = function(app){
             if(req.body.activationCode == null){
                 res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(null, "Missing activation code param"));
             }
-
+            
+            var hashToken;
             sequelize.transaction(function(t){
                 return Users.findOne({
                     where : {
@@ -70,7 +75,7 @@ module.exports = function(app){
                     
                     const plainToken = securityConfig.leftPadding + user.id + securityConfig.rightPadding
                     const salts = 10;
-                    const hashToken = bcrypt.hashSync(plainToken, salts);
+                    hashToken = bcrypt.hashSync(plainToken, salts);
                     
                     return user.updateAttributes({
                         activationCode: null,
@@ -78,7 +83,7 @@ module.exports = function(app){
                     }, {transaction: t})
                 })
             }).then(function(result){
-                res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, "Account activated"));
+                res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted({accessToken : hashToken}, "Account activated"));
             }).catch(function(err){
                 console.log(err);
                 res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError());

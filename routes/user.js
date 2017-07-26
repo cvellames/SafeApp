@@ -5,16 +5,11 @@
 
 module.exports = function(app){
     var controller = app.controllers.user;
-
-    app.route("/api/user/:userId")
-        .get(controller.getUser);
     
     app.route("/api/user")
         .post(controller.insert)
+        .get(controller.get);
 
-    app.route("/api/user/resend_activation_code").
-        post(controller.resendActivationCode);
-
-    app.route("/api/user/check_activation_code").
+    app.route("/api/user/activate").
         post(controller.checkActivationCode);
 };

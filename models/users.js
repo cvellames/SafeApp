@@ -39,10 +39,10 @@ module.exports = function(sequelize, Sequelize){
      */
     Users.beforeCreate(function(user){
         
-        const min = 100000;
-        const max = 999999;
+        const min = 1000;
+        const max = 9999;
         const activationCode = Math.floor(Math.random() * (max - min) + min);
-        user.activationCode = activationCode;
+        user.activationCode = 1234;//activationCode;
         
     });
 
