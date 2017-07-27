@@ -7,7 +7,7 @@ module.exports = function(app){
     var controller = app.controllers.user;
     
     app.route("/api/user")
-        .post(controller.insert)
+        .put(controller.insert)
         .get(controller.get);
 
     app.route("/api/user/activate").

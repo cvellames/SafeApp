@@ -1,3 +1,9 @@
+function newActivationCode(){
+    const min = 1000;
+    const max = 9999;
+    return  Math.floor(Math.random() * (max - min) + min);
+}
+
 module.exports = function(sequelize, Sequelize){
     const Users = sequelize.define("Users", {
         id: {
@@ -36,15 +42,34 @@ module.exports = function(sequelize, Sequelize){
 
     /**
      * Insert the activation code and access token in user creation
+     * @author Cassiano Vellames <c.vellames@outlook.com>
      */
     Users.beforeCreate(function(user){
-        
-        const min = 1000;
-        const max = 9999;
-        const activationCode = Math.floor(Math.random() * (max - min) + min);
-        user.activationCode = 1234;//activationCode;
-        
+        user.activationCode = newActivationCode();
     });
+    
+    //////// Personal methods ///////
+    
+    /**
+    *   Renew the activation code
+    *   @author Cassiano Vellames <c.vellames@outlook.com>
+    */
+    Users.updateActivationCode = function(phoneNumber, successCallback, failedCallback){
+        Users.findOne({
+            where : {
+                phone : phoneNumber
+            }
+        }).then(function(user){
+            console.log(user);
+            user.updateAttributes({
+                activationCode : newActivationCode()
+            }).then(function(){
+                successCallback()  
+            }).catch(function(err){
+                failedCallback();
+            });
+        })
+    }
 
     return Users;
 };

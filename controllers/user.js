@@ -10,14 +10,19 @@ module.exports = function(app){
     const sequelize = app.db.sequelize;
     const Users = app.db.models.Users;
     const securityConfig = require("./../config/security")(app);
-
+    
     return {
+        
+        /**
+        * Get the basic information of user
+        * @author Cassiano Vellames <c.vellames@outlook.com>
+        */
         get: function(req,res,next){
             securityConfig.checkAuthorization(req.headers.authorization, res, function(){
                 Users.findOne({
-                where: {
-                    id : req.params.userId
-                }
+                    where: {
+                        id : req.params.userId
+                    }
                 }).then(function(user){
                     res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(user))
                 })
@@ -36,12 +41,17 @@ module.exports = function(app){
                 user.activationCode = null;
                 res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(user, msg));
             }).catch(function(error){
+                console.log(error);
                 // Check if the error is unique violation of phone, in this case, resend the activatio code
                 if(error.errors[0].path == "phone" && error.errors[0].type == "unique violation"){
-                    const msg = "Activation code re-sended"
-                    res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, ));
+                    Users.updateActivationCode(
+                        req.body.phone, 
+                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, "Activation Code sended")),
+                        res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError)
+                    )
+                } else {
+                    res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(error.errors));
                 }
-                res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(error.errors));
             });
         },
         
@@ -85,19 +95,10 @@ module.exports = function(app){
             }).then(function(result){
                 res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted({accessToken : hashToken}, "Account activated"));
             }).catch(function(err){
-                console.log(err);
-                res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError());
+                res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError);
             });
 
 
-        },
-        
-        /**
-        * Resend the activation code to user
-        * @author Cassiano Vellames <c.vellames@outlook.com>
-        */
-        resendActivationCode: function(req,res){
-            res.json({msg: "not implemented"});
         }
     }
 };

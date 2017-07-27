@@ -1,5 +1,13 @@
 module.exports = function(){
-
+    
+    function getResponseJSON(status, message, content){
+        return {
+            status: status,
+            message: message,
+            content: content
+        }
+    }
+    
     return {
 
         OK_REQUEST: 200,
@@ -7,53 +15,17 @@ module.exports = function(){
         FORBIDDEN_REQUEST: 403,
         INTERNAL_SERVER_ERROR: 500,
 
-        invalidJSON : function(){
-            return {
-                status : 'Error',
-                message : "Invalid JSON",
-                content : null
-            }
-        },
-
-        requestCompleted : function(content, msg){
-            if(msg === undefined){
-                msg = "Request Completed";
-            }
-
-            return {
-                status : "Success",
-                message : msg,
-                content : content
-            }
+        invalidJSON : getResponseJSON("Error", "InvalidJSON", null),
+        internalServerError: getResponseJSON("Error", "Internal Server Error. Contact the support", null),
+        forbiddenRequest: getResponseJSON("Forbidden", "You are not authorized to access this rounte", null),
+        
+        requestCompleted : function(msg, content){
+            return getResponseJSON("Success", msg, content)
         },
 
         requestFailed: function(content, msg){
-            if(msg === undefined){
-                msg = "Request Failed";
-            }
-
-            return {
-                status : "Error",
-                message : msg,
-                content : content
-            }
+            return getResponseJSON("Error", msg, content)
         },
-
-        internalServerError: function(){
-            return {
-                status : "Error",
-                message: "Internal Server Error. Contact the support",
-                content: null
-            }
-        },
-        
-        forbiddenRequest: function(){
-            return {
-                status : "Forbidden",
-                message: "You are not authorized to access this route",
-                content: null
-            }
-        }
 
     }
 
