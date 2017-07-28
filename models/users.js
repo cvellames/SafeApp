@@ -23,12 +23,14 @@ module.exports = function(sequelize, Sequelize){
         activationCode: {
             field: "activation_code",
             type: Sequelize.STRING,
-            allowNull: true
+            allowNull: true,
+            unique: true
         },
         accessToken: {
             field: "access_token",
             type: Sequelize.STRING(100),
-            allowNull: true
+            allowNull: true,
+            unique: true
         }
     }, {
         tableName: "users",
@@ -55,21 +57,18 @@ module.exports = function(sequelize, Sequelize){
     *   @author Cassiano Vellames <c.vellames@outlook.com>
     */
     Users.updateActivationCode = function(phoneNumber, successCallback, failedCallback){
-        Users.findOne({
-            where : {
+        Users.update({
+            activationCode: newActivationCode()
+        }, {
+            where: {
                 phone : phoneNumber
             }
-        }).then(function(user){
-            console.log(user);
-            user.updateAttributes({
-                activationCode : newActivationCode()
-            }).then(function(){
-                successCallback()  
-            }).catch(function(err){
-                failedCallback();
-            });
-        })
-    }
+        }).then(function(){
+            successCallback()
+        }).catch(function(err){
+            failedCallback(err)
+        });
+    };
 
     return Users;
 };

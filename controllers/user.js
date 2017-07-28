@@ -17,11 +17,14 @@ module.exports = function(app){
         * Get the basic information of user
         * @author Cassiano Vellames <c.vellames@outlook.com>
         */
-        get: function(req,res,next){
-            securityConfig.checkAuthorization(req.headers.authorization, res, function(){
+        get: function(req,res){
+
+            const authorization = req.headers.authorization;
+
+            securityConfig.checkAuthorization(authorization, res, function(){
                 Users.findOne({
                     where: {
-                        id : req.params.userId
+                        accessToken : authorization
                     }
                 }).then(function(user){
                     res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(user))
@@ -30,28 +33,45 @@ module.exports = function(app){
         },
         
         /**
-        * Insert a new user in database
+        * Insert a new user in database or resend the activation code
         * @author Cassiano Vellames <c.vellames@outlook.com>
         */
         insert: function(req,res){
-            Users.create({
-                phone: req.body.phone
-            }).then(function(user){
-                const msg = "User inserted with success";
-                user.activationCode = null;
-                res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(user, msg));
-            }).catch(function(error){
-                console.log(error);
-                // Check if the error is unique violation of phone, in this case, resend the activatio code
-                if(error.errors[0].path == "phone" && error.errors[0].type == "unique violation"){
-                    Users.updateActivationCode(
-                        req.body.phone, 
-                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, "Activation Code sended")),
+
+            if(req.body.phone == null){
+                res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(null, "Missing phone param"));
+                return;
+            }
+
+            Users.count({where : {phone : req.body.phone}}).then(function(count){
+               if(count === 1){
+
+                    const successCb = function(){
+                        //TODO: send sms
+                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, "Activation Code sent"));
+                    };
+
+                    const failCb = function(){
                         res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError)
-                    )
-                } else {
-                    res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(error.errors));
-                }
+                    };
+
+                    Users.updateActivationCode(
+                        req.body.phone,
+                        successCb,
+                        failCb
+                    );
+
+               } else {
+                   Users.create({
+                       phone: req.body.phone
+                   }).then(function(user){
+                       const msg = "User inserted with success";
+                       user.activationCode = null;
+                       res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(user, msg));
+                   }).catch(function(error){
+                       res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(error.errors));
+                   });
+               }
             });
         },
         
@@ -63,10 +83,13 @@ module.exports = function(app){
 
             if(req.body.phone == null){
                 res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(null, "Missing phone param"));
+                console.log("oi");
+                return;
             }
 
             if(req.body.activationCode == null){
                 res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(null, "Missing activation code param"));
+                return;
             }
             
             var hashToken;
@@ -81,6 +104,7 @@ module.exports = function(app){
 
                     if(user === null){
                         res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(null, "Phone and activation code does not matches"));
+                        return
                     }
                     
                     const plainToken = securityConfig.leftPadding + user.id + securityConfig.rightPadding

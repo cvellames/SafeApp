@@ -23,7 +23,7 @@ module.exports = function(app){
                 accessToken: hash
             }}).then(function(count){
                 if(count === 0){
-                    res.status(returnUtils.FORBIDDEN_REQUEST).json(returnUtils.forbiddenRequest());
+                    res.status(returnUtils.FORBIDDEN_REQUEST).json(returnUtils.forbiddenRequest);
                 } else {
                     callback();
                 }

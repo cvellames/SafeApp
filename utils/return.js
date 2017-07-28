@@ -17,15 +17,15 @@ module.exports = function(){
 
         invalidJSON : getResponseJSON("Error", "InvalidJSON", null),
         internalServerError: getResponseJSON("Error", "Internal Server Error. Contact the support", null),
-        forbiddenRequest: getResponseJSON("Forbidden", "You are not authorized to access this rounte", null),
+        forbiddenRequest: getResponseJSON("Forbidden", "You are not authorized to access this route", null),
         
-        requestCompleted : function(msg, content){
+        requestCompleted : function(content, msg){
             return getResponseJSON("Success", msg, content)
         },
 
         requestFailed: function(content, msg){
             return getResponseJSON("Error", msg, content)
-        },
+        }
 
     }
 
