@@ -3,7 +3,7 @@
   "description": "safeapp",
   "version": "0.1.0",
   "scripts": {
-    "start": "npm install && node app.js",
+    "start": "node app.js",
     "test": "node ./node_modules/mocha/bin/mocha"
   },
   "dependencies": {
