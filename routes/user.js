@@ -12,4 +12,8 @@ module.exports = function(app){
 
     app.route("/api/user/activate").
         post(controller.checkActivationCode);
+    
+    app.get("/", function(req,res){
+        res.json({"oi" : "oi"})
+    })
 };

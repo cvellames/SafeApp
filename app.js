@@ -3,6 +3,8 @@
  * @author Cassiano Vellames <c.vellames@outlook.com
  */
 
+const PORT = 80;
+
 // Loading modules
 var bodyParser = require("body-parser");
 var express = require("express");
@@ -35,10 +37,10 @@ into(app);
 
 // Sync database and start up node server
 app.db.sequelize.sync({force:false}).done(function(){
-    app.listen(3000, function(){
+    app.listen(PORT, function(){
         const initialLoad = require("./config/initial_load")(app);
         initialLoad.emergencyTypes();
 
-        console.log("App running in port 3000");
+        console.log("App running in port " + PORT);
     });
 });
