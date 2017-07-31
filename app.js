@@ -3,7 +3,7 @@
  * @author Cassiano Vellames <c.vellames@outlook.com
  */
 
-const PORT = 3000;
+const PORT = 80
 
 // Loading modules
 var bodyParser = require("body-parser");
