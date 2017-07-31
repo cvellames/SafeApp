@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "scripts": {
     "start": "node app.js",
-    "test": "node ./node_modules/mocha/bin/mocha"
+    "test": "node ./node_modules/mocha/bin/mocha",
+      "postinstall" : "npm install"
   },
   "dependencies": {
     "bcrypt": "^1.0.2",
