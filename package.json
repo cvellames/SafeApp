@@ -1,8 +1,7 @@
 {
-  "name": "SafeApp",
-  "description": "SafeApp",
+  "name": "safeapp",
+  "description": "safeapp",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "start": "node app.js",
     "test": "node ./node_modules/mocha/bin/mocha"
