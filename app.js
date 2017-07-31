@@ -16,6 +16,8 @@ const securityConfig = require("./config/security")();
 
 // Init express
 var app = express();
+app.apis = require("./config/apis");
+app.plivo = require("./utils/plivo")(app);
 
 // Config body-parser
 app.use(bodyParser.json());
@@ -36,7 +38,7 @@ then("routes").
 into(app);
 
 // Sync database and start up node server
-app.db.sequelize.sync({force:false}).done(function(){
+app.db.sequelize.sync({force:true}).done(function(){
     app.listen(PORT, function(){
         const initialLoad = require("./config/initial_load")(app);
         initialLoad.emergencyTypes();

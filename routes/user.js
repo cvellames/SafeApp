@@ -3,6 +3,8 @@
  * @author Cassiano Vellames
  */
 
+const apis = require("./../config/apis");
+
 module.exports = function(app){
     var controller = app.controllers.user;
     

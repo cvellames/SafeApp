@@ -12,6 +12,7 @@
     "express": "^4.15.2",
     "express-load": "^1.1.15",
     "mysql": "^2.13.0",
+    "plivo": "^0.4.1",
     "sequelize": "^3.30.4"
   },
   "devDependencies": {
@@ -19,8 +20,8 @@
     "chai-http": "^3.0.0",
     "mocha": "^3.4.2"
   },
-    "engines" : {
-        "node" : "6.10.1",
-        "npm" : "3.10.10"
-    }
+  "engines": {
+    "node": "6.10.1",
+    "npm": "3.10.10"
+  }
 }

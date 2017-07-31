@@ -47,7 +47,7 @@ module.exports = function(app){
                if(count === 1){
 
                     const successCb = function(){
-                        //TODO: send sms
+                        app.plivo.send("+557187225891", "oie");
                         res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, "Activation Code sent"));
                     };
 
@@ -65,8 +65,10 @@ module.exports = function(app){
                    Users.create({
                        phone: req.body.phone
                    }).then(function(user){
-                       const msg = "User inserted with success";
+                       app.plivo.sendActivationCode(req.body.phone, user.activationCode);
                        user.activationCode = null;
+                
+                       const msg = "User inserted with success";
                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(user, msg));
                    }).catch(function(error){
                        res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(error.errors));
