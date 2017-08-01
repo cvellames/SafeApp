@@ -57,14 +57,15 @@ module.exports = function(sequelize, Sequelize){
     *   @author Cassiano Vellames <c.vellames@outlook.com>
     */
     Users.updateActivationCode = function(phoneNumber, successCallback, failedCallback){
+        const activationCode = newActivationCode();
         Users.update({
-            activationCode: newActivationCode()
+            activationCode: activationCode
         }, {
             where: {
                 phone : phoneNumber
             }
         }).then(function(){
-            successCallback()
+            successCallback(activationCode)
         }).catch(function(err){
             failedCallback(err)
         });

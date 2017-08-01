@@ -3,6 +3,7 @@ const app = require("./../app");
 const chai = require("chai");
 
 const expect = chai.expect;
+const returnUtils = require("./../utils/return")(app);
 
 describe("Routes for User", function(){
 
@@ -11,19 +12,60 @@ describe("Routes for User", function(){
             done();
         })
     });
+
+    beforeEach(function(done){
+        app.db.sequelize.sync({force:true}).done(function(){
+            done();
+        })
+    });
     
     it("Create a new user in database", function(done){
+        const phone = "+557188888888";
         request(app)
             .put('/api/user')
             .send({
-                phone: "+557188888888"
+                phone: phone
             })
             .expect(200)
             .end(function(err, res){
-                expect(res.body.status).to.eql("Success");
-                expect(res.body.message).to.eql("User inserted with success");
+                expect(res.body.message).to.eql(returnUtils.getI18nMessage("USER_INSERTED", phone, true));
+                done();
+            });
+    });
+
+    it("Send missing param error", function(done){
+        request(app)
+            .put('/api/user')
+            .send({
+                phoooneeee: "1234"
+            })
+            .expect(400)
+            .end(function(err, res){
+                expect(res.body.message).to.eql(returnUtils.getI18nMessage("MISSING_PARAM"));
+                expect(res.body.content).to.eql(null);
                 done();
             });
 
+    });
+
+    it("Generate a new activation code", function(done){
+        const Users = app.db.models.Users;
+        const phone = "+557188888888";
+        Users.create({
+            phone: phone
+        }).then(function(user){
+
+            request(app)
+                .put("/api/user")
+                .send({
+                    phone: phone
+                })
+                .expect(200)
+                .end(function(err, res){
+                    expect(res.body.message).to.eql(returnUtils.getI18nMessage("ACTIVATION_CODE_RESENT"));
+                    expect(res.body.content).to.eql(null);
+                    done()
+                })
+        });
     })
 });

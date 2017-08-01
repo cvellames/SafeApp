@@ -5,6 +5,10 @@ module.exports = {
         ENVIRONMENT: process.env.ENV_VARIABLE == undefined ? "production" : process.env.ENV_VARIABLE
     },
 
+    i18n:{
+        DEFAULT_LANGUAGE: "ptbr"
+    },
+
     plivo: {
         AUTH_ID: 'MAOGUYNWIWZJIXMZQYZW',
         AUTH_TOKEN: 'ZjY2MWViOTY3YzE3ZTc0YzA0MTllM2NiMGU1ZmQ0',

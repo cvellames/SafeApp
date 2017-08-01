@@ -38,16 +38,18 @@ module.exports = function(app){
         insert: function(req,res){
 
             if(req.body.phone == null){
-                res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(null, "Missing phone param"));
+                const msg = returnUtils.getI18nMessage("MISSING_PARAM");
+                res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(msg));
                 return;
             }
 
             Users.count({where : {phone : req.body.phone}}).then(function(count){
                if(count === 1){
 
-                    const successCb = function(){
-                        app.plivo.send("+557187225891", "oie");
-                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, "Activation Code sent"));
+                    const successCb = function(activationCode){
+                        app.plivo.sendActivationCode(req.body.phone, activationCode);
+                        const msg = returnUtils.getI18nMessage("ACTIVATION_CODE_RESENT");
+                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(msg));
                     };
 
                     const failCb = function(){
@@ -66,11 +68,10 @@ module.exports = function(app){
                    }).then(function(user){
                        app.plivo.sendActivationCode(req.body.phone, user.activationCode);
                        user.activationCode = null;
-                       const msg = returnUtils.getMessage(req.body.phone, "USER_INSERTED", true);
-                       res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(user, msg));
+                       const msg = returnUtils.getI18nMessage("USER_INSERTED", req.body.phone, true);
+                       res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(msg, user));
                    }).catch(function(error){
-                       console.log(error);
-                       res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(error.errors));
+                       res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed("Error", error.errors));
                    });
                }
             });

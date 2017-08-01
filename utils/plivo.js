@@ -5,6 +5,7 @@
  */
 module.exports = function(app){
     const plivo = require('plivo');
+    const returnUtils = require("./return")(app);
     
     return {
         /**
@@ -44,7 +45,7 @@ module.exports = function(app){
          * @param activationCode Activation code
          */
         sendActivationCode: function(dst, activationCode){
-            const plivoMsg = "Hi, to advance in your registration, please insert the following activation code in aplication: " + activationCode;
+            const plivoMsg = returnUtils.getI18nMessage("PLIVO_ACTIVATION_CODE", dst, true) + activationCode;
             this.send(dst, plivoMsg);
         }
     }

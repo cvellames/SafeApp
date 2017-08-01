@@ -4,6 +4,7 @@ module.exports = {
         username: "root",
         password: "root",
         params: {
+            logging: false,
             host: "localhost",
             dialect: "mysql",
             define: {
@@ -16,6 +17,7 @@ module.exports = {
         username: "root",
         password: "root",
         params: {
+            logging: false,
             host: "localhost",
             dialect: "mysql",
             define: {

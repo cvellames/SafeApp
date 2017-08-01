@@ -1,6 +1,9 @@
 {
 	"INTERNAL_SERVER_ERROR": "Erro interno no servidor. Contacte o suporte",
-    "FORBIDDEN_REQUEST" : "Você não esta autorizado a acessar essa rota",
-    
-    "USER_INSERTED" : "Usuário inserido com sucesso"
+	"FORBIDDEN_REQUEST": "Você não esta autorizado a acessar essa rota",
+	"MISSING_PARAM": "Existem parametros faltando, cheque sua requisição",
+	"USER_INSERTED": "Usuário inserido com sucesso",
+	"ACTIVATION_CODE_RESENT": "Codigo de ativação reenviado com sucesso",
+	"PLIVO_ACTIVATION_CODE": "Ola, para avancar com o seu registro, por favor insira o seguinte codigo de ativacao na aplicacao: ",
+	"ACTIVATION_CODE_RESENTe": "ACTIVATION_CODE_RESENTe"
 }

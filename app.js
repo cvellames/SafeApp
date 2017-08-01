@@ -4,9 +4,9 @@
  */
 
 // Loading modules
-var bodyParser = require("body-parser");
-var express = require("express");
-var expressLoad = require("express-load");
+const bodyParser = require("body-parser");
+const express = require("express");
+const expressLoad = require("express-load");
 const i18n = require("i18n");
 
 // My Modules
@@ -23,12 +23,8 @@ app.plivo = require("./utils/plivo")(app);
 i18n.configure({
     locales:['ptbr', 'en'],
     directory: __dirname + '/i18n',
-    defaultLocale: "en",
-    logWarnFn: function (msg) {
-        console.log('warn', msg);
-    },
+    defaultLocale: app.core.i18n.DEFAULT_LANGUAGE
 });
-i18n.setLocale("ptbr");
 app.i18n = i18n;
 
 // Config body-parser
@@ -50,7 +46,6 @@ then("routes").
 into(app);
 
 
-
 // Sync database and start up node server
 app.db.sequelize.sync({force:true}).done(function(){
     app.listen(app.core.server.PORT, function(){
@@ -58,7 +53,6 @@ app.db.sequelize.sync({force:true}).done(function(){
         initialLoad.emergencyTypes();
         app.emit("serverStarted");
         console.log("App running in port " + app.core.server.PORT);
-        console.log(app.i18n.__('INTERNAL_SERVER_ERROR'));
     });
 });
 

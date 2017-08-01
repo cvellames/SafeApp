@@ -7,7 +7,7 @@ module.exports = function(app){
     function getResponseJSON(message, content){
         return {
             message: message,
-            content: content
+            content: content === undefined ? null : content
         }
     }
     
@@ -22,16 +22,23 @@ module.exports = function(app){
         internalServerError: getResponseJSON('app.__("INTERNAL_SERVER_ERROR")', null),
         forbiddenRequest: getResponseJSON('i18n.__("FORBIDDEN_REQUEST")', null),
         
-        requestCompleted : function(content, msg){
+        requestCompleted : function(msg, content){
             return getResponseJSON(msg, content)
         },
 
-        requestFailed: function(content, msg){
+        requestFailed: function(msg, content){
             return getResponseJSON(msg, content)
         },
-        
-        // Check the i18n
-        getMessage : function(info, i18nKey, isNumber){
+
+        /**
+         *
+         * @author Cassiano Vellames <c.vellames@outlook.com>
+         * @param info Phone Number or locale
+         * @param i18nKey Key to get i18n
+         * @param isNumber If is number, the function verify the first 3 digits to choose a language
+         * @returns {string} Returns the value of key passed in right locale
+         */
+        getI18nMessage : function(i18nKey, info,  isNumber){
             var locale = null;
             if(isNumber){
                 switch(info.substr(0,3)){
@@ -42,6 +49,8 @@ module.exports = function(app){
                         locale = "en";
                         break;
                 }
+            } else {
+                locale = info == null ? app.core.i18n.DEFAULT_LANGUAGE : info;
             }
             
             app.i18n.setLocale(locale);
