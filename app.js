@@ -3,8 +3,6 @@
  * @author Cassiano Vellames <c.vellames@outlook.com
  */
 
-const PORT = 3000
-
 // Loading modules
 var bodyParser = require("body-parser");
 var express = require("express");
@@ -12,11 +10,10 @@ var expressLoad = require("express-load");
 
 // My Modules
 const returnUtils = require("./utils/return")();
-const securityConfig = require("./config/security")();
 
 // Init express
 var app = express();
-app.apis = require("./config/apis");
+app.core = require("./config/core");
 app.plivo = require("./utils/plivo")(app);
 
 // Config body-parser
@@ -39,10 +36,12 @@ into(app);
 
 // Sync database and start up node server
 app.db.sequelize.sync({force:true}).done(function(){
-    app.listen(PORT, function(){
+    app.listen(app.core.server.PORT, function(){
         const initialLoad = require("./config/initial_load")(app);
         initialLoad.emergencyTypes();
-
-        console.log("App running in port " + PORT);
+        app.emit("serverStarted");
+        console.log("App running in port " + app.core.server.PORT);
     });
 });
+
+module.exports = app;

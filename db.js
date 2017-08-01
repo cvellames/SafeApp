@@ -13,17 +13,19 @@ const config = require("./config/database");
 const path = require("path");
 const fs = require("fs");
 
+// Get actual environment
+const environment = require("./config/core").server.ENVIRONMENT;
+
 var sequelize = null;
 module.exports = function() {
 
     // Singleton for instance of Sequelize
     if (!sequelize) {
-        //sequelize = new Sequelize("mysql://b9fx4q33vku0uc2e:hrww3b32yt9kzmiz@op2hpcwcbxb1t4z9.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/djmv0z7htytjhdn2");
         sequelize = new Sequelize(
-            config.database,
-            config.username,
-            config.password,
-            config.params
+            config[environment].database,
+            config[environment].username,
+            config[environment].password,
+            config[environment].params
         );
     }
 

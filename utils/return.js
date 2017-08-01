@@ -1,3 +1,7 @@
+/**
+ * Return pattern for application
+ * @returns {{OK_REQUEST: number, BAD_REQUEST: number, FORBIDDEN_REQUEST: number, INTERNAL_SERVER_ERROR: number, invalidJSON: ({status, message, content}|*), internalServerError: ({status, message, content}|*), forbiddenRequest: ({status, message, content}|*), requestCompleted: requestCompleted, requestFailed: requestFailed}}
+ */
 module.exports = function(){
     
     function getResponseJSON(status, message, content){

@@ -71,6 +71,7 @@ module.exports = function(app){
                        const msg = "User inserted with success";
                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(user, msg));
                    }).catch(function(error){
+                       console.log(error);
                        res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(error.errors));
                    });
                }

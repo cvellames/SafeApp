@@ -3,7 +3,7 @@
  * @author Cassiano Vellames
  */
 
-const apis = require("./../config/apis");
+const apis = require("../config/core");
 
 module.exports = function(app){
     var controller = app.controllers.user;
@@ -16,6 +16,6 @@ module.exports = function(app){
         post(controller.checkActivationCode);
     
     app.get("/", function(req,res){
-        res.json({"oi" : "oi"})
+        res.json({"Hi" : "Aloha"})
     })
 };
