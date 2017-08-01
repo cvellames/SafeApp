@@ -1,0 +1,6 @@
+{
+	"INTERNAL_SERVER_ERROR": "Erro interno no servidor. Contacte o suporte",
+    "FORBIDDEN_REQUEST" : "Você não esta autorizado a acessar essa rota",
+    
+    "USER_INSERTED" : "Usuário inserido com sucesso"
+}

@@ -1,11 +1,10 @@
-const returnUtils = require("./../utils/return")();
-
 /**
  * Authorization methods
  * @param app Express application
  * @returns {{leftPadding: string, rightPadding: string, checkAuthorization: checkAuthorization}}
  */
 module.exports = function(app){
+    const returnUtils = require("./../utils/return")(app);
     
     return {
         /**

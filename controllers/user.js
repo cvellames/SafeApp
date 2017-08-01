@@ -2,14 +2,13 @@
  * User Controller
  * @author Cassiano Vellames <c.vellames@outlook.com>
  */
-const returnUtils = require("./../utils/return")();
-const bcrypt = require("bcrypt");
-
 module.exports = function(app){
 
+    const bcrypt = require("bcrypt");
     const sequelize = app.db.sequelize;
     const Users = app.db.models.Users;
     const securityConfig = require("./../config/security")(app);
+    const returnUtils = require("./../utils/return")(app);
     
     return {
         
@@ -67,8 +66,7 @@ module.exports = function(app){
                    }).then(function(user){
                        app.plivo.sendActivationCode(req.body.phone, user.activationCode);
                        user.activationCode = null;
-                
-                       const msg = "User inserted with success";
+                       const msg = returnUtils.getMessage(req.body.phone, "USER_INSERTED", true);
                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(user, msg));
                    }).catch(function(error){
                        console.log(error);

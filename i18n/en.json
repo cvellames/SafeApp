@@ -1,0 +1,6 @@
+{
+	"INTERNAL_SERVER_ERROR": "Internal Server Error. Contact the support",
+    "FORBIDDEN_REQUEST" : "You are not authorized to access this route",
+    
+    "USER_INSERTED" : "User inserted with success"
+}
