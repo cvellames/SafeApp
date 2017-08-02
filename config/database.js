@@ -4,7 +4,7 @@ module.exports = {
         username: "root",
         password: "root",
         params: {
-            logging: false,
+            logging: true,
             host: "localhost",
             dialect: "mysql",
             define: {

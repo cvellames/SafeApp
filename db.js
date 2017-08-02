@@ -13,9 +13,7 @@ const config = require("./config/database");
 const path = require("path");
 const fs = require("fs");
 
-// Get actual environment
-const environment = require("./config/core").server.ENVIRONMENT;
-
+const environment = process.env.NODE_ENV.trim();
 var sequelize = null;
 module.exports = function() {
 

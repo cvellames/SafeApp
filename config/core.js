@@ -2,7 +2,9 @@ module.exports = {
 
     server: {
         PORT: 3000,
-        ENVIRONMENT: process.env.ENV_VARIABLE == undefined ? "production" : process.env.ENV_VARIABLE
+        getEnvironment : function(){
+            return process.env.NODE_ENV.trim();
+        }
     },
 
     i18n:{

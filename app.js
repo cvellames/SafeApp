@@ -53,6 +53,7 @@ app.db.sequelize.sync({force:true}).done(function(){
         initialLoad.emergencyTypes();
         app.emit("serverStarted");
         console.log("App running in port " + app.core.server.PORT);
+        console.log("Environment: " + app.core.server.getEnvironment());
     });
 });
 

@@ -17,11 +17,11 @@ module.exports = function(app){
          */
         send: function(dst, txt){
 
-            if(app.core.server.ENVIRONMENT.toLowerCase() != "production"){
+            if(app.core.server.getEnvironment() != "production"){
                 console.log("Message only sent in production environment");
                 return;
             }
-            return;
+
             var p = plivo.RestAPI({
               authId: app.core.plivo.AUTH_ID,
               authToken: app.core.plivo.AUTH_TOKEN
