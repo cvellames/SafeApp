@@ -5,7 +5,7 @@
   "scripts": {
     "start": "set NODE_ENV=production && node app.js",
     "test" : "set NODE_ENV=test && node ./node_modules/mocha/bin/mocha -t 15000",  
-    "ci": "NODE_ENV=test node ./node_modules/mocha/bin/mocha -t 15000"
+    "ci": "NODE_ENV=ci node ./node_modules/mocha/bin/mocha -t 15000"
   },
   "dependencies": {
     "bcrypt": "^1.0.2",
