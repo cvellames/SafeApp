@@ -30,7 +30,7 @@ module.exports = {
         username: "k4iy6n9ko492m6fp",
         password: "hbgg09wcom3dafze",
         params: {
-            logging: true,
+            logging: false,
             host: "op2hpcwcbxb1t4z9.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
             dialect: "mysql",
             define: {
