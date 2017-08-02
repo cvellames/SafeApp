@@ -47,13 +47,13 @@ into(app);
 
 
 // Sync database and start up node server
-app.db.sequelize.sync({force:true}).done(function(){
+app.db.sequelize.sync({force:false}).done(function(){
     app.listen(app.core.server.PORT, function(){
         const initialLoad = require("./config/initial_load")(app);
         initialLoad.emergencyTypes();
         app.emit("serverStarted");
-        console.log("App running in port " + app.core.server.PORT);
-        console.log("Environment: " + app.core.server.getEnvironment());
+        //console.log("App running in port " + app.core.server.PORT);
+        //console.log("Environment: " + app.core.server.getEnvironment());
     });
 });
 

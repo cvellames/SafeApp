@@ -18,7 +18,7 @@ module.exports = function(app){
         send: function(dst, txt){
 
             if(app.core.server.getEnvironment() != "production"){
-                console.log("Message only sent in production environment");
+                //console.log("Message only sent in production environment");
                 return;
             }
 

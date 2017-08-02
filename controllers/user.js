@@ -83,14 +83,9 @@ module.exports = function(app){
         */
         checkActivationCode: function(req,res){
 
-            if(req.body.phone == null){
-                res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(null, "Missing phone param"));
-                console.log("oi");
-                return;
-            }
-
-            if(req.body.activationCode == null){
-                res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(null, "Missing activation code param"));
+            if(req.body.phone == null || req.body.activationCode == null){
+                const msg = returnUtils.getI18nMessage("MISSING_PARAM");
+                res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(msg));
                 return;
             }
             
