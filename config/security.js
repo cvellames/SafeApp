@@ -21,13 +21,17 @@ module.exports = function(app){
         *   Checks if the hash sent by the endpoint is valid
         *   @author Cassiano Vellames <c.vellames@outlook.com>
         */
-        checkAuthorization: function(hash, res, callback){
+        checkAuthorization: function(req, res, callback){
             const User = app.db.models.Users;
+
+            const authorization = req.headers.authorization;
+            const locale = req.headers.locale;
+
             User.count({where : {
-                accessToken: hash
+                accessToken: authorization
             }}).then(function(count){
                 if(count === 0){
-                    res.status(returnUtils.FORBIDDEN_REQUEST).json(returnUtils.forbiddenRequest);
+                    res.status(returnUtils.FORBIDDEN_REQUEST).json(returnUtils.forbiddenRequest(locale));
                 } else {
                     callback();
                 }

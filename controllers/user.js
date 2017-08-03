@@ -17,16 +17,15 @@ module.exports = function(app){
         * @author Cassiano Vellames <c.vellames@outlook.com>
         */
         get: function(req,res){
-
-            const authorization = req.headers.authorization;
-
-            securityConfig.checkAuthorization(authorization, res, function(){
+            securityConfig.checkAuthorization(req, res, function(){
                 Users.findOne({
                     where: {
-                        accessToken : authorization
+                        accessToken : req.headers.authorization
                     }
                 }).then(function(user){
-                    res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(user))
+                    res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, user))
+                }).catch(function(){
+                    res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError(req.headers.locale));
                 })
             });
         },
@@ -53,7 +52,7 @@ module.exports = function(app){
                     };
 
                     const failCb = function(){
-                        res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError)
+                        res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError());
                     };
 
                     Users.updateActivationCode(
@@ -71,7 +70,7 @@ module.exports = function(app){
                        const msg = returnUtils.getI18nMessage("USER_INSERTED", req.body.phone, true);
                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(msg, user));
                    }).catch(function(error){
-                       res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed("Error", error.errors));
+                       res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError());
                    });
                }
             });
@@ -90,6 +89,7 @@ module.exports = function(app){
             }
             
             var hashToken;
+            var transactionFinished = false;
             sequelize.transaction(function(t){
                 return Users.findOne({
                     where : {
@@ -98,25 +98,29 @@ module.exports = function(app){
                     },
                     attributes: ["id", "activationCode"]
                 },{transaction : t}).then(function(user){
-
                     if(user === null){
-                        res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(null, "Phone and activation code does not matches"));
-                        return
+                        const msg = returnUtils.getI18nMessage("ACTIVATION_CODE_DOES_NOT_MATCH");
+                        res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(msg));
+                        transactionFinished = true;
+                        return;
                     }
-                    
+
                     const plainToken = securityConfig.leftPadding + user.id + securityConfig.rightPadding
                     const salts = 10;
                     hashToken = bcrypt.hashSync(plainToken, salts);
-                    
+
                     return user.updateAttributes({
                         activationCode: null,
                         accessToken : hashToken
                     }, {transaction: t})
                 })
             }).then(function(result){
-                res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted({accessToken : hashToken}, "Account activated"));
+                if(!transactionFinished){
+                    const msg = returnUtils.getI18nMessage("USER_ACTIVATED");
+                    res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(msg, {accessToken : hashToken}));
+                }
             }).catch(function(err){
-                res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError);
+                res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError());
             });
 
 

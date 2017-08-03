@@ -21,8 +21,8 @@ app.plivo = require("./utils/plivo")(app);
 
 // Config i18n
 i18n.configure({
-    locales:['ptbr', 'en'],
-    directory: __dirname + '/i18n',
+    locales: app.core.i18n.LOCALES,
+    directory: __dirname + app.core.i18n.DIRECTORY,
     defaultLocale: app.core.i18n.DEFAULT_LANGUAGE
 });
 app.i18n = i18n;
@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 app.use(function(err,req,res,next){
     //Check errors in JSON
     if(err.stack){
-        res.status(returnUtils.BAD_REQUEST).json(returnUtils.invalidJSON());
+        res.status(returnUtils.BAD_REQUEST).json(returnUtils.invalidJSON(req.headers.locale));
     } else {
         delete req.body.id;
         next();
@@ -52,8 +52,14 @@ app.db.sequelize.sync({force:false}).done(function(){
         const initialLoad = require("./config/initial_load")(app);
         initialLoad.emergencyTypes();
         app.emit("serverStarted");
-        //console.log("App running in port " + app.core.server.PORT);
-        //console.log("Environment: " + app.core.server.getEnvironment());
+
+        if(app.core.server.getEnvironment() === "dev"){
+            console.log("App running in port " + app.core.server.PORT);
+        }
+
+        if(app.core.server.getEnvironment() !== "ci"){
+            console.log("Environment: " + app.core.server.getEnvironment());
+        }
     });
 });
 

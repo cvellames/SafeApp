@@ -8,7 +8,12 @@ module.exports = {
     },
 
     i18n:{
-        DEFAULT_LANGUAGE: "ptbr"
+        DIRECTORY: '/i18n',
+        DEFAULT_LANGUAGE: "ptbr",
+        LOCALES:[
+            'ptbr',
+            'en'
+        ]
     },
 
     plivo: {

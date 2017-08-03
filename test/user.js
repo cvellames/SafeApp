@@ -37,21 +37,6 @@ describe("Routes for User", function(){
                 });
         });
 
-        it("Should send missing param error", function(done){
-            request(app)
-                .put('/api/user')
-                .send({
-                    phoooneeee: "1234"
-                })
-                .expect(400)
-                .end(function(err, res){
-                    expect(res.body.message).to.eql(returnUtils.getI18nMessage("MISSING_PARAM"));
-                    expect(res.body.content).to.eql(null);
-                    done();
-                });
-
-        });
-
         it("Should generate a new activation code", function(done){
             const Users = app.db.models.Users;
             const phone = "+557188888888";
@@ -71,15 +56,144 @@ describe("Routes for User", function(){
                     })
             });
         });
+
+        it("Should send missing param error | No phone sent", function(done){
+            request(app)
+                .put('/api/user')
+                .send({
+                    phoooneeee: "1234"
+                })
+                .expect(400)
+                .end(function(err, res){
+                    expect(res.body.message).to.eql(returnUtils.getI18nMessage("MISSING_PARAM"));
+                    expect(res.body.content).to.eql(null);
+                    done();
+                });
+        });
+    });
+
+    /*
+     ======================== GET | /api/user =========================
+     */
+
+    describe("GET | /api/user", function(){
+
+        it("Should return an user", function(done){
+            const Users = app.db.models.Users;
+            const phone = "+557188888888";
+            Users.create({
+                phone: phone,
+                accessToken: "1234"
+            }).then(function(user){
+                request(app)
+                    .get("/api/user")
+                    .set("Authorization", "1234")
+                    .expect(200)
+                    .end(function(err, res){
+                        expect(res.body.message).to.eql(null);
+                        expect(res.body.content.id).to.eql(user.id);
+                        expect(res.body.content.name).to.eql(null);
+                        expect(res.body.content.phone).to.eql(user.phone);
+                        //TODO Check error in test
+                        //expect(res.body.content.activationCode).to.eql(user.activationCode);
+                        expect(res.body.content.accessToken).to.eql(user.accessToken);
+                        done()
+                    })
+            });
+        });
+
+        it("Should return a forbidden message | No Authorization sent", function(done){
+            request(app)
+                .get('/api/user')
+                .expect(402)
+                .end(function(err, res){
+                    expect(res.body.message).to.eql(returnUtils.getI18nMessage("FORBIDDEN_REQUEST"));
+                    expect(res.body.content).to.eql(null);
+                    done();
+                });
+        });
+
+        it("Should return a forbidden message | Wrong Authorization header", function(done){
+            request(app)
+                .get('/api/user')
+                .set("Authorization", "1234")
+                .expect(402)
+                .end(function(err, res){
+                    expect(res.body.message).to.eql(returnUtils.getI18nMessage("FORBIDDEN_REQUEST"));
+                    expect(res.body.content).to.eql(null);
+                    done();
+                });
+        });
+
     });
     
     
     /*
       ======================== POST | /api/user/activate =========================
     */
-    
+
     describe("POST | /api/user/activate", function(){
-        it("Should send missing param error", function(done){
+
+        it("Should activate the user", function(done){
+            const Users = app.db.models.Users;
+            const phone = "+557188888888";
+            Users.create({
+                phone: phone
+            }).then(function(user){
+                request(app)
+                    .post('/api/user/activate')
+                    .send({
+                        phone: phone,
+                        activationCode: user.activationCode
+                    })
+                    .expect(200)
+                    .end(function(err, res){
+                        Users.findOne({phone: phone}).then(function(user){
+                            expect(res.body.message).to.eql(returnUtils.getI18nMessage("USER_ACTIVATED"));
+                            expect(res.body.content.accessToken).to.eql(user.accessToken);
+                            done();
+                        });
+                    });
+            });
+        });
+
+        it("Should return miss match activation code and phone number | Test with empty database", function(done){
+            request(app)
+                .post('/api/user/activate')
+                .send({
+                    phone: "1",
+                    activationCode: "1"
+                })
+                .expect(400)
+                .end(function(err, res){
+                    expect(res.body.message).to.eql(returnUtils.getI18nMessage("ACTIVATION_CODE_DOES_NOT_MATCH"));
+                    expect(res.body.content).to.eql(null);
+                    done();
+                });
+        });
+
+        it("Should return miss match activation code and phone number | Wrong phone and activation code", function(done){
+            const Users = app.db.models.Users;
+            const phone = "+557188888888";
+            Users.create({
+                phone: phone
+            }).then(function(user){
+                request(app)
+                    .post('/api/user/activate')
+                    .send({
+                        phone: "1",
+                        activationCode: "1"
+                    })
+                    .expect(400)
+                    .end(function(err, res){
+                        expect(res.body.message).to.eql(returnUtils.getI18nMessage("ACTIVATION_CODE_DOES_NOT_MATCH"));
+                        expect(res.body.content).to.eql(null);
+                        done();
+                    });
+            });
+        });
+
+        it("Should send missing param error | No params sent", function(done){
             request(app)
                 .post('/api/user/activate')
                 .send({})
@@ -91,7 +205,7 @@ describe("Routes for User", function(){
                 });
         });
 
-        it("Should send missing param error", function(done){
+        it("Should send missing param error | No activation code sent", function(done){
             request(app)
                 .post('/api/user/activate')
                 .send({
@@ -105,7 +219,7 @@ describe("Routes for User", function(){
                 });
         });
 
-        it("Should send missing param error", function(done){
+        it("Should send missing param error | No phone sent", function(done){
             request(app)
                 .post('/api/user/activate')
                 .send({
