@@ -27,12 +27,13 @@ module.exports = function(app){
             const authorization = req.headers.authorization;
             const locale = req.headers.locale;
 
-            User.count({where : {
+            User.findAndCountAll({where : {
                 accessToken: authorization
-            }}).then(function(count){
-                if(count === 0){
+            }}).then(function(result){
+                if(result.count === 0){
                     res.status(returnUtils.FORBIDDEN_REQUEST).json(returnUtils.forbiddenRequest(locale));
                 } else {
+                    req.userInfo = result.rows[0];
                     callback();
                 }
             });
