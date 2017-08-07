@@ -10,4 +10,5 @@ deploy:
     provider: heroku
     api_key:
         secure: "f912566d-7941-4432-943f-77748e799067"
+    app: "thesafeapp"
     
