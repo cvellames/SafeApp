@@ -10,6 +10,7 @@ module.exports = function(app){
     
     app.route("/api/user")
         .put(controller.insert)
+        .patch(controller.update)
         .get(controller.get);
 
     app.route("/api/user/activate").

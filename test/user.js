@@ -126,6 +126,68 @@ describe("Routes for User", function(){
 
     });
     
+     /*
+      ======================== PATCH | /api/user =========================
+    */
+    
+    describe("PATCH | /api/user", function(){
+        
+        it("Should update the user name", function(done){
+            
+            const Users = app.db.models.Users;
+            const accessToken = "1234";
+            const phone = "+557188888888";
+            const newName = "Cassiano";
+            
+            Users.create({
+                phone: phone,
+                accessToken: accessToken
+            }).then(function(user){
+                request(app)
+                .patch('/api/user')
+                .set("Authorization", accessToken)
+                .send({
+                    name: newName
+                })
+                .expect(200)
+                .end(function(err, res){
+                    Users.findOne({accessToken: accessToken}).then(function(user){
+                        expect(res.body.message).to.eql(returnUtils.getI18nMessage("USER_UPDATED"));
+                        expect(res.body.content).to.eql(null);
+                        expect(user.name).to.eql(newName);
+                        done(); 
+                    });
+                });
+            });
+            
+         });
+        
+        it("Should send forbidden error", function(done){
+             request(app)
+                .patch('/api/user')
+                .send({
+                    name : "1234"
+                })
+                .expect(400)
+                .end(function(err, res){
+                    expect(res.body.message).to.eql(returnUtils.getI18nMessage("FORBIDDEN_REQUEST"));
+                    expect(res.body.content).to.eql(null);
+                    done();
+                });
+         });
+        
+         it("Should send missing param error | No params sent", function(done){
+             request(app)
+                .patch('/api/user')
+                .send({})
+                .expect(400)
+                .end(function(err, res){
+                    expect(res.body.message).to.eql(returnUtils.getI18nMessage("MISSING_PARAM"));
+                    expect(res.body.content).to.eql(null);
+                    done();
+                });
+         });
+    });
     
     /*
       ======================== POST | /api/user/activate =========================

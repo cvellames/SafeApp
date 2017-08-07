@@ -26,7 +26,7 @@ module.exports = function(app){
                     res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, user))
                 }).catch(function(){
                     res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError(req.headers.locale));
-                })
+                });
             });
         },
         
@@ -73,6 +73,37 @@ module.exports = function(app){
                        res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError());
                    });
                }
+            });
+        },
+        
+        /**
+         * Update an user
+         * @author Cassiano Vellames <c.vellames@outlook.com>
+         */
+        update: function(req,res){
+            
+            if(req.body.name == null){
+                const msg = returnUtils.getI18nMessage("MISSING_PARAM", req.headers.locale);
+                res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(msg));
+                return;
+            };
+            
+            securityConfig.checkAuthorization(req, res, function(){
+                Users.update({
+                    name: req.body.name
+                },{where: {
+                    accessToken : req.headers.authorization
+                }
+                }).then(function(user){
+                    if(user == 1){
+                        const msg = returnUtils.getI18nMessage("USER_UPDATED", req.headers.locale);
+                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(msg));
+                    } else {
+                        res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError(req.headers.locale));
+                    }
+                }).catch(function(){
+                    res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError(req.headers.locale));
+                });
             });
         },
         

@@ -1,13 +1,14 @@
 {
-	"INTERNAL_SERVER_ERROR": "Erro interno no servidor. Contacte o suporte",
-	"FORBIDDEN_REQUEST": "Você não esta autorizado a acessar essa rota",
-	"INVALID_JSON": "JSON invalido, por favor verifique sua requisição",
-	"MISSING_PARAM": "Existem parametros faltando, cheque sua requisição",
+    "INTERNAL_SERVER_ERROR": "Erro interno no servidor. Contacte o suporte",
+    "FORBIDDEN_REQUEST": "Você não esta autorizado a acessar essa rota",
+    "INVALID_JSON": "JSON invalido, por favor verifique sua requisição",
+    "MISSING_PARAM": "Existem parametros faltando, cheque sua requisição",
 
-	"ACTIVATION_CODE_DOES_NOT_MATCH" : "Telefone e codigo de ativação não conferem",
-	"USER_ACTIVATED" : "Usuário ativado com sucesso",
-	"USER_INSERTED": "Usuário inserido com sucesso",
-	"ACTIVATION_CODE_RESENT": "Codigo de ativação reenviado com sucesso",
+    "ACTIVATION_CODE_DOES_NOT_MATCH" : "Telefone e codigo de ativação não conferem",
+    "USER_UPDATED": "Usuário atualizado com sucesso",
+    "USER_ACTIVATED" : "Usuário ativado com sucesso",
+    "USER_INSERTED": "Usuário inserido com sucesso",
+    "ACTIVATION_CODE_RESENT": "Codigo de ativação reenviado com sucesso",
 
-	"PLIVO_ACTIVATION_CODE": "Ola, para avancar com o seu registro, por favor insira o seguinte codigo de ativacao na aplicacao: "
+    "PLIVO_ACTIVATION_CODE": "Ola, para avancar com o seu registro, por favor insira o seguinte codigo de ativacao na aplicacao: "
 }
