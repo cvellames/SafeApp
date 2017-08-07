@@ -1,7 +1,7 @@
 module.exports = {
 
     server: {
-        PORT: 3000,
+        PORT: process.env.NODE_ENV.trim() == "production" ? 80 : 3000,
         getEnvironment : function(){
             return process.env.NODE_ENV.trim();
         }
