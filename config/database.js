@@ -1,11 +1,11 @@
 module.exports = {
     production : {
-        database: "safeapp",
-        username: "root",
-        password: "root",
+        database: "h3bgywklct7byvpr",
+        username: "k4iy6n9ko492m6fp",
+        password: "hbgg09wcom3dafze",
         params: {
             logging: true,
-            host: "localhost",
+            host: "op2hpcwcbxb1t4z9.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
             dialect: "mysql",
             define: {
                 underscored: true
