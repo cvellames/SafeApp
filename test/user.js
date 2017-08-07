@@ -94,8 +94,7 @@ describe("Routes for User", function(){
                         expect(res.body.content.id).to.eql(user.id);
                         expect(res.body.content.name).to.eql(null);
                         expect(res.body.content.phone).to.eql(user.phone);
-                        //TODO Check error in test
-                        //expect(res.body.content.activationCode).to.eql(user.activationCode);
+                        expect(res.body.content.activationCode.toString()).to.eql(user.activationCode.toString());
                         expect(res.body.content.accessToken).to.eql(user.accessToken);
                         done()
                     })
