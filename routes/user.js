@@ -16,6 +16,6 @@ module.exports = function(app){
         post(controller.checkActivationCode);
     
     app.get("/", function(req,res){
-        res.json({"Hi" : "Aloha"})
+        res.json({"Hi" : "Aloha!!!!!!!!!"})
     })
 };
