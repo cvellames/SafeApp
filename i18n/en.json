@@ -9,6 +9,11 @@
     "ACTIVATION_CODE_RESENT" : "Activation code resent with success",
     "USER_ACTIVATED" : "User activated with success",
     "ACTIVATION_CODE_DOES_NOT_MATCH" : "Phone and activation code does not matches",
+    
+    "CONTACT_INSERTED" : "Contact inserted with success",
+    "INVALID_CONTACT" : "You can not register yourself as an emergency contact.",
+    "CONTACT_EXISTS" : "The emergency contact has already been registered",
 
-    "PLIVO_ACTIVATION_CODE" : "Hi, to advance in your registration, please insert the following activation code in aplication: "
+    "PLIVO_ACTIVATION_CODE" : "Hi, to advance in your registration, please insert the following activation code in aplication: ",
+    "PLIVO_NEW_CONTACT": "signed you as an emergency contact in SafeAPP"
 }

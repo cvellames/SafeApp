@@ -11,8 +11,7 @@ module.exports = function(sequelize, Sequelize){
         },
         phone:{
             type: Sequelize.STRING(15),
-            allowNull: false,
-            unique: true
+            allowNull: false
         }
     }, {
         tableName: "contacts",

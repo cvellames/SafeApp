@@ -46,6 +46,11 @@ module.exports = function(app){
         sendActivationCode: function(dst, activationCode){
             const plivoMsg = returnUtils.getI18nMessage("PLIVO_ACTIVATION_CODE", dst, true) + activationCode;
             this.send(dst, plivoMsg);
+        },
+        
+        sendNewContactInformation: function(dst, username){
+            const plivoMsg = username + " " + returnUtils.getI18nMessage("PLIVO_NEW_CONTACT", dst, true);
+            this.send(dst, plivoMsg);
         }
-    }
-}
+    };
+};

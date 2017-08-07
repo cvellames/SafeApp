@@ -15,25 +15,44 @@ module.exports = function(app){
             
             // Check not null params
             if(req.body.name == null || req.body.phone == null){
-                const msg = returnUtils.getI18nMessage("MISSING_PARAM");
+                const msg = returnUtils.getI18nMessage("MISSING_PARAM", req.headers.locale);
                 res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(msg));
                 return;
             }
             
             // Check if the contact have the same number of user
             if(req.body.phone == req.userInfo.phone){
-                
+                const msg = returnUtils.getI18nMessage("INVALID_CONTACT", req.headers.locale);
+                res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(msg));
+                return;
             }
             
-            Contacts.create({
-                name: req.body.name,
-                phone: req.body.phone,
-                user_id: req.userInfo.id
-            }).then(function(contact){
-                
+            // Check if contact already exists
+            Contacts.count({where: {
+                user_id: req.userInfo.id,
+                phone: req.body.phone
+            }}).then(function(count){console.log(count);
+                if(count == 0){
+                    Contacts.create({
+                        name: req.body.name,
+                        phone: req.body.phone,
+                        user_id: req.userInfo.id
+                    }).then(function(contact){
+                        app.plivo.sendNewContactInformation(req.body.phone, req.userInfo.name);
+                        const msg = returnUtils.getI18nMessage("CONTACT_INSERTED", req.headers.locale);
+                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(msg, contact));
+                    }).catch(function(err){
+                        res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError(req.headers.locale));
+                    });
+                } else {
+                    const msg = returnUtils.getI18nMessage("CONTACT_EXISTS", req.headers.locale);
+                    res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(msg));
+                }
             }).catch(function(){
                 res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError(req.headers.locale));
             });
+            
+            
         },
         
         update: function(req,res){

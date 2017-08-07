@@ -9,6 +9,11 @@
     "USER_ACTIVATED" : "Usuário ativado com sucesso",
     "USER_INSERTED": "Usuário inserido com sucesso",
     "ACTIVATION_CODE_RESENT": "Codigo de ativação reenviado com sucesso",
+    
+    "CONTACT_INSERTED" : "Contato inserido com sucesso!",
+    "INVALID_CONTACT" : "Você não pode cadastrar voce mesmo como contato de emergência.",
+    "CONTACT_EXISTS" : "O contato de emergencia já foi cadastrado",
 
-    "PLIVO_ACTIVATION_CODE": "Ola, para avancar com o seu registro, por favor insira o seguinte codigo de ativacao na aplicacao: "
+    "PLIVO_ACTIVATION_CODE": "Ola, para avancar com o seu registro, por favor insira o seguinte codigo de ativacao na aplicacao: ",
+    "PLIVO_NEW_CONTACT": "cadastrou você como contato de emergencia no SafeAPP"
 }
