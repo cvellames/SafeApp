@@ -84,11 +84,16 @@ module.exports = function(app){
                         name: req.body.name,
                         phone: req.body.phone
                     }, { where : {
-                        id: req.body.id
-                    }}).then(function(contact){
-                        app.plivo.sendNewContactInformation(req.body.phone, req.userInfo.name);
-                        const msg = returnUtils.getI18nMessage("CONTACT_UPDATED", req.headers.locale);
-                        res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(msg));
+                        id: req.body.id,
+                        user_id: req.userInfo.id
+                    }}).then(function(count){
+                        if(count == 1){
+                            app.plivo.sendNewContactInformation(req.body.phone, req.userInfo.name);
+                            const msg = returnUtils.getI18nMessage("CONTACT_UPDATED", req.headers.locale);
+                            res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(msg));
+                        } else {
+                            res.status(returnUtils.FORBIDDEN_REQUEST).json(returnUtils.forbiddenRequest(req.headers.locale));
+                        }
                     }).catch(function(err){
                         res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError(req.headers.locale));
                     });

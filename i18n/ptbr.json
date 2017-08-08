@@ -1,6 +1,6 @@
 {
     "INTERNAL_SERVER_ERROR": "Erro interno no servidor. Contacte o suporte",
-    "FORBIDDEN_REQUEST": "Você não esta autorizado a acessar essa rota",
+    "FORBIDDEN_REQUEST": "Você não esta autorizado a acessar essa rota ou realizar essa ação",
     "INVALID_JSON": "JSON invalido, por favor verifique sua requisição",
     "MISSING_PARAM": "Existem parametros faltando, cheque sua requisição",
 

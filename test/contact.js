@@ -59,7 +59,7 @@ describe("Routes for Contact", function(){
            });          
        });
        
-       it("Should return forbidden request", function(done){
+       it("Should return forbidden request | No Authorization", function(done){
            
            Contacts.create(contactTest).then(function(contact){
                request(app)
@@ -76,6 +76,37 @@ describe("Routes for Contact", function(){
                     done();
                 });
            });          
+       });
+       
+       it("Should return forbidden request | Trying to update another user's contact", function(done){
+           
+           const anotherUser = {
+                id: 2,
+                phone: "+557788888889",
+                name: "Testing2",
+                accessToken: "abc.1232" 
+           };
+           
+           Users.create(anotherUser).then(function(user){
+                Contacts.create(contactTest).then(function(contact){
+                    request(app)
+                        .put("/api/contact")
+                        .set("Authorization", anotherUser.accessToken)
+                        .send({
+                            name: "New Contact Test",
+                            phone: "+55712525252",
+                            id: 1
+                        })
+                        .expect(403)
+                        .end(function(err,res){
+                            expect(res.body.message).to.eql(returnUtils.getI18nMessage("FORBIDDEN_REQUEST"));
+                            expect(res.body.content).to.eql(null);
+                            done();
+                        });
+                });
+           });
+           
+                     
        });
        
        it("Should return error of missing param | No params sent", function(done){
