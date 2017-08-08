@@ -11,6 +11,7 @@
     "ACTIVATION_CODE_RESENT": "Codigo de ativação reenviado com sucesso",
     
     "CONTACT_INSERTED" : "Contato inserido com sucesso!",
+    "CONTACT_UPDATED": "Contato atualizado com sucesso",
     "INVALID_CONTACT" : "Você não pode cadastrar voce mesmo como contato de emergência.",
     "CONTACT_EXISTS" : "O contato de emergencia já foi cadastrado",
 

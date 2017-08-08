@@ -34,7 +34,7 @@ app.use(function(err,req,res,next){
     if(err.stack){
         res.status(returnUtils.BAD_REQUEST).json(returnUtils.invalidJSON(req.headers.locale));
     } else {
-        delete req.body.id;
+        //delete req.body.id;
         next();
     }
 });
