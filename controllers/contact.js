@@ -31,7 +31,7 @@ module.exports = function(app){
             Contacts.count({where: {
                 user_id: req.userInfo.id,
                 phone: req.body.phone
-            }}).then(function(count){console.log(count);
+            }}).then(function(count){
                 if(count == 0){
                     Contacts.create({
                         name: req.body.name,

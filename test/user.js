@@ -7,12 +7,6 @@ const returnUtils = require("./../utils/return")(app);
 
 describe("Routes for User", function(){
 
-    before(function (done) {
-        app.on("serverStarted", function () {
-            done();
-        })
-    });
-
     beforeEach(function(done){
         app.db.sequelize.sync({force:true}).done(function(){
             done();
