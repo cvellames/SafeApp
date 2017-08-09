@@ -38,6 +38,82 @@ describe("Routes for Contact", function(){
         });
     });
     
+    describe("DELETE | /api/contact", function(){
+       it("Should delete the contact", function(done){
+           
+           Contacts.create(contactTest).then(function(contact){
+               request(app)
+                .delete("/api/contact")
+                .set("Authorization", userTest.accessToken)
+                .send({
+                    id: contactTest.id
+               })
+               .expect(200)
+               .end(function(err,res){
+                    expect(res.body.message).to.eql(returnUtils.getI18nMessage("CONTACT_DELETED"));
+                    expect(res.body.content).to.eql(null);
+                    done();
+               });
+           });          
+       });
+       
+       it("Should return forbidden request | No Authorization", function(done){
+               request(app)
+                .delete("/api/contact")
+                .send({
+                    id: contactTest
+                })
+                .expect(403)
+                .end(function(err,res){
+                    expect(res.body.message).to.eql(returnUtils.getI18nMessage("FORBIDDEN_REQUEST"));
+                    expect(res.body.content).to.eql(null);
+                    done();
+                });
+                   
+       });
+       
+       it("Should return forbidden request | Trying to delete another user's contact", function(done){
+           
+           const anotherUser = {
+                id: 2,
+                phone: "+557788888889",
+                name: "Testing2",
+                accessToken: "abc.1232" 
+           };
+           
+           Users.create(anotherUser).then(function(user){
+                Contacts.create(contactTest).then(function(contact){
+                    request(app)
+                        .delete("/api/contact")
+                        .set("Authorization", anotherUser.accessToken)
+                        .send({
+                            id: contactTest.id
+                        })
+                        .expect(403)
+                        .end(function(err,res){
+                            expect(res.body.message).to.eql(returnUtils.getI18nMessage("FORBIDDEN_REQUEST"));
+                            expect(res.body.content).to.eql(null);
+                            done();
+                        });
+                });
+           });
+           
+                     
+       });
+       
+       it("Should return error of missing param | No params sent", function(done){
+            request(app)
+             .delete("/api/contact")
+             .set("Authorization", userTest.accessToken)
+             .expect(400)
+             .end(function(err,res){
+                 expect(res.body.message).to.eql(returnUtils.getI18nMessage("MISSING_PARAM"));
+                 expect(res.body.content).to.eql(null);
+                 done();
+             });         
+       });
+    });
+    
     describe("PUT | /api/contact", function(){
        it("Should update the contact", function(done){
            

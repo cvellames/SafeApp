@@ -12,6 +12,7 @@
     
 	"CONTACT_INSERTED": "Contact inserted with success",
         "CONTACT_UPDATED": "Contact updated with success",
+        "CONTACT_DELETED": "Contact deleted with success",
 	"INVALID_CONTACT": "You can not register yourself as an emergency contact.",
 	"CONTACT_EXISTS": "The emergency contact has already been registered",
     

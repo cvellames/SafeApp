@@ -59,6 +59,10 @@ module.exports = function(app){
             
         },
         
+        /**
+         * Update a contact
+         * @author Cassiano Vellames <c.vellames@outlook.com>
+         */
         update: function(req,res){
             // Check not null params
             if(req.body.name == null || req.body.phone == null || req.body.id == null){
@@ -106,8 +110,30 @@ module.exports = function(app){
             });
         },
         
+        /**
+         * Delete an user
+         * @author Cassiano Vellames <c.vellames@outlook.com>
+         */
         remove: function(req,res){
-            res.json({"msg" : "delete"});
+            if(req.body.id == null){
+                const msg = returnUtils.getI18nMessage("MISSING_PARAM", req.headers.locale);
+                res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(msg));
+                return;
+            }
+            
+            Contacts.destroy({where:{
+                id: req.body.id,
+                user_id: req.userInfo.id
+            }}).then(function(count){
+                if(count === 1){
+                    const msg = returnUtils.getI18nMessage("CONTACT_DELETED", req.headers.locale);
+                    res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(msg));
+                } else {
+                    res.status(returnUtils.FORBIDDEN_REQUEST).json(returnUtils.forbiddenRequest(req.headers.locale));
+                }
+            }).catch(function(){
+                res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError(req.headers.locale));
+            });
         }
         
     };

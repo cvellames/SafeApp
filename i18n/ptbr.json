@@ -12,6 +12,7 @@
     
     "CONTACT_INSERTED" : "Contato inserido com sucesso!",
     "CONTACT_UPDATED": "Contato atualizado com sucesso",
+    "CONTACT_DELETED": "Contato deletado com sucesso",
     "INVALID_CONTACT" : "Você não pode cadastrar voce mesmo como contato de emergência.",
     "CONTACT_EXISTS" : "O contato de emergencia já foi cadastrado",
 
