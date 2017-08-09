@@ -11,6 +11,30 @@ module.exports = function(app){
     
     return {
         
+        getByUser: function(req,res){
+            res.json({msg: "getByUser"}) ;
+        },
+        
+        /**
+         * Get one contact of user
+         * @author Cassiano Vellames <c.vellames@outlook.com>
+         */
+        getOne: function(req, res){
+            Contacts.findOne({where : {
+                id: req.params.contactId,
+                user_id: req.userInfo.id
+            }}).then(function(contact){
+                if(contact === null){
+                    const msg = returnUtils.getI18nMessage("CONTACT_NOT_FOUND", req.headers.locale);
+                    res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(msg));
+                } else {
+                    res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, contact));
+                }
+            }).catch(function(){
+                res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError(req.headers.locale));
+            });
+        },
+        
         /**
          * Insert a contact in database
          * @author Cassiano Vellames <c.vellames@outlook.com>
@@ -55,8 +79,7 @@ module.exports = function(app){
             }).catch(function(){
                 res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError(req.headers.locale));
             });
-            
-            
+              
         },
         
         /**

@@ -20,5 +20,14 @@ module.exports = function(app){
         .post(controller.insert)
         .put(controller.update)
         .delete(controller.remove);
+
+    app.get("/api/contact/:contactId", function(req, res){
+        securityConfig.checkAuthorization(req, res, function(){
+            controller.getOne(req,res);   
+        });
+    });
+
+    app.route("/api/contacts")
+        .get(controller.getOne);
      
 };
