@@ -27,7 +27,11 @@ module.exports = function(app){
         });
     });
 
-    app.route("/api/contacts")
-        .get(controller.getOne);
+    app.get("/api/contacts", function(req,res){
+        securityConfig.checkAuthorization(req, res, function(){
+            controller.getByUser(req,res);   
+        });
+    });
+        
      
 };

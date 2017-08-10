@@ -11,8 +11,18 @@ module.exports = function(app){
     
     return {
         
+        /**
+         * Get all contacts of an user
+         * @author Cassiano Vellames <c.vellames@outlook.com>
+         */
         getByUser: function(req,res){
-            res.json({msg: "getByUser"}) ;
+            Contacts.findAll({where : {
+                user_id: req.userInfo.id 
+            }}).then(function(contacts){
+                res.status(returnUtils.OK_REQUEST).json(returnUtils.requestCompleted(null, contacts));
+            }).catch(function(){
+                res.status(returnUtils.INTERNAL_SERVER_ERROR).json(returnUtils.internalServerError(req.headers.locale));
+            });
         },
         
         /**
