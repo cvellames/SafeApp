@@ -4,13 +4,14 @@
   "version": "0.1.0",
   "scripts": {
     "start": "set NODE_ENV=production && node app.js",
+    "test": "NODE_ENV=test node ./node_modules/mocha/bin/mocha -t 15000",
     "ci": "NODE_ENV=ci node ./node_modules/mocha/bin/mocha -t 15000",
-    "dev" : "set NODE_ENV=dev && node app.js",
-    "test" : "set NODE_ENV=test && node ./node_modules/mocha/bin/mocha -t 15000"
+    "dev": "NODE_ENV=dev nodemon app.js"
   },
   "dependencies": {
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",
+    "connect-multiparty": "^2.0.0",
     "express": "^4.15.2",
     "express-load": "^1.1.15",
     "i18n": "^0.8.3",

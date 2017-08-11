@@ -4,11 +4,13 @@
  */
 module.exports = function(app){
 
+    const fs = require("fs");
     const bcrypt = require("bcrypt");
     const sequelize = app.db.sequelize;
     const Users = app.db.models.Users;
     const securityConfig = require("./../config/security")(app);
     const returnUtils = require("./../utils/return")(app);
+    const uploader = require("./../utils/uploader")(app);
     
     return {
         
@@ -81,14 +83,19 @@ module.exports = function(app){
          * @author Cassiano Vellames <c.vellames@outlook.com>
          */
         update: function(req,res){
-            
+
             if(req.body.name == null){
                 const msg = returnUtils.getI18nMessage("MISSING_PARAM", req.headers.locale);
                 res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(msg));
                 return;
             };
-            
-            securityConfig.checkAuthorization(req, res, function(){
+
+            uploader.upload(req,res, function(err){
+                if(err){
+                    res.status(returnUtils.BAD_REQUEST).json(returnUtils.requestFailed(err));
+                    return;                
+                }
+
                 Users.update({
                     name: req.body.name
                 },{where: {

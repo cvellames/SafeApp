@@ -28,11 +28,12 @@ i18n.configure({
 app.i18n = i18n;
 
 // Config body-parser
+app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 app.use(function(err,req,res,next){
     //Check errors in JSON
     if(err.stack){
-        res.status(returnUtils.BAD_REQUEST).json(returnUtils.invalidJSON(req.headers.locale));
+        //res.status(returnUtils.BAD_REQUEST).json(returnUtils.invalidJSON(req.headers.locale));
     } else {
         //delete req.body.id;
         next();
@@ -44,6 +45,9 @@ expressLoad("db.js").
 then("controllers").
 then("routes").
 into(app);
+
+// Make public the users photo
+app.use("/users/photos", express.static("public/users/photos"));
 
 
 // Sync database and start up node server

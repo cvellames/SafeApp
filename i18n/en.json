@@ -18,6 +18,10 @@
 	"CONTACT_EXISTS": "The emergency contact has already been registered",
     
 	"PLIVO_ACTIVATION_CODE": "Hi, to advance in your registration, please insert the following activation code in aplication: ",
-	"PLIVO_NEW_CONTACT": "signed you as an emergency contact in SafeAPP"
-	
+	"PLIVO_NEW_CONTACT": "signed you as an emergency contact in SafeAPP",
+
+	"UPLOADER_NO_FILE_SENT": "No file sent.",
+	"UPLOADER_INVALID_EXTENSION" : "Invalid extension.",
+	"UPLOADER_ERROR" : "Error in file upload.",
+	"UPLOADER_SUCCESS" : "File uploaded with success."
 }

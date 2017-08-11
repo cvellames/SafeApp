@@ -7,6 +7,11 @@ module.exports = {
         }
     },
 
+    uploader:{
+        USER_PHOTOS_PATH: "public/users/photos/",
+        ALLOWED_EXTENSIONS: [".png", ".jpg", ".jpeg"]
+    },
+
     i18n:{
         DIRECTORY: '/i18n',
         DEFAULT_LANGUAGE: "ptbr",

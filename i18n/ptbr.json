@@ -1,22 +1,27 @@
 {
-    "INTERNAL_SERVER_ERROR": "Erro interno no servidor. Contacte o suporte",
-    "FORBIDDEN_REQUEST": "Você não esta autorizado a acessar essa rota ou realizar essa ação",
-    "INVALID_JSON": "JSON invalido, por favor verifique sua requisição",
+	"INTERNAL_SERVER_ERROR": "Erro interno no servidor. Contacte o suporte",
+	"FORBIDDEN_REQUEST": "Você não esta autorizado a acessar essa rota ou realizar essa ação",
+	"INVALID_JSON": "JSON invalido, por favor verifique sua requisição",
     "MISSING_PARAM": "Existem parametros faltando, cheque sua requisição",
-
-    "ACTIVATION_CODE_DOES_NOT_MATCH" : "Telefone e codigo de ativação não conferem",
-    "USER_UPDATED": "Usuário atualizado com sucesso",
-    "USER_ACTIVATED" : "Usuário ativado com sucesso",
-    "USER_INSERTED": "Usuário inserido com sucesso",
+    
+	"ACTIVATION_CODE_DOES_NOT_MATCH": "Telefone e codigo de ativação não conferem",
+	"USER_UPDATED": "Usuário atualizado com sucesso",
+	"USER_ACTIVATED": "Usuário ativado com sucesso",
+	"USER_INSERTED": "Usuário inserido com sucesso",
     "ACTIVATION_CODE_RESENT": "Codigo de ativação reenviado com sucesso",
     
-    "CONTACT_INSERTED" : "Contato inserido com sucesso!",
-    "CONTACT_UPDATED": "Contato atualizado com sucesso",
-    "CONTACT_DELETED": "Contato deletado com sucesso",
-    "CONTACT_NOT_FOUND" : "O contato não existe",
-    "INVALID_CONTACT" : "Você não pode cadastrar voce mesmo como contato de emergência.",
-    "CONTACT_EXISTS" : "O contato de emergencia já foi cadastrado",
-
-    "PLIVO_ACTIVATION_CODE": "Ola, para avancar com o seu registro, por favor insira o seguinte codigo de ativacao na aplicacao: ",
-    "PLIVO_NEW_CONTACT": "cadastrou você como contato de emergencia no SafeAPP"
+	"CONTACT_INSERTED": "Contato inserido com sucesso!",
+	"CONTACT_UPDATED": "Contato atualizado com sucesso",
+	"CONTACT_DELETED": "Contato deletado com sucesso",
+	"CONTACT_NOT_FOUND": "O contato não existe",
+	"INVALID_CONTACT": "Você não pode cadastrar voce mesmo como contato de emergência.",
+    "CONTACT_EXISTS": "O contato de emergencia já foi cadastrado",
+    
+	"PLIVO_ACTIVATION_CODE": "Ola, para avancar com o seu registro, por favor insira o seguinte codigo de ativacao na aplicacao: ",
+    "PLIVO_NEW_CONTACT": "cadastrou você como contato de emergencia no SafeAPP",
+    
+	"UPLOADER_NO_FILE_SENT": "Arquivo não enviado.",
+	"UPLOADER_INVALID_EXTENSION": "Extensão inválida.",
+	"UPLOADER_ERROR": "Erro durante o upload do arquivo.",
+	"UPLOADER_SUCCESS": "Arquivo enviado com sucesso."
 }

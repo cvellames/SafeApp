@@ -50,7 +50,6 @@ module.exports = function(app){
          * @author Cassiano Vellames <c.vellames@outlook.com>
          */
         insert: function(req,res){
-            
             // Check not null params
             if(req.body.name == null || req.body.phone == null){
                 const msg = returnUtils.getI18nMessage("MISSING_PARAM", req.headers.locale);
